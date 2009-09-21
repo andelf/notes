@@ -1,0 +1,496 @@
+general purpose register 32 , $0, $1, .... $31
+floating point register 16
+
+$0 always 0x00000000 null
+
+
+arithmetic/logic unit (ALU)
+===========================
+
+operand
+Machine instructions that use the ALU specify four things:
+
+The operation to perform.
+The the first operand (often in a register).
+The second operand (often in a register).
+The register that receives the result.
+
+
+= Registers =
+  0    1    0    9    5    0    2    1     -- machine instruction in hex
+0000 0001 0000 1001 0101 0000 0010 0001    -- machine instruction in bits
+000000 01000 01001 01010 00000 100001      -- fields of the instructuion
+opcode oprnd oprnd dest  ----- 2ndary      -- meaning of the fields
+ALUop   $8    $9   $10           addu
+
+$8 01000
+$9 01001
+....
+
+$0 	  zero		Permanently 0 
+$1 	  $at 	 	Assembler Temporary (reserved) 
+$2, $3 	  $v0, $v1 	Value returned by a subroutine 
+$4-$7 	  $a0-$a3 	Arguments to a subroutine 
+$8-$15	  $t0-$t7 	Temporary (not preserved across a function call) 
+$16-$23   $s0-$s7 	Saved registers (preserved across a function call) 
+$24, $25  $t8, $t9 	Temporary 
+$26, $27  $k0, $k1 	Kernel (reserved for OS) 
+$28  	  $gp   	Global Pointer 
+$29 	  $sp   	Stack Pointer 
+$30 	  $fp 		Frame Pointer 
+$31 	  $ra   	Return Address (Automatically used in some instructions) 
+
+= Chapter 11 =
+
+Immediate operand
+
+ori	  $des, $fst, snd   -- bitwise OR ,snd 16 bit
+e.g.
+```  ori $8,$0,0x2
+apply  zero extension on 0x2 , then , two 32 bit operands
+
+andi   	  $des, $fst, snd   -- bitwise AND
+xori	  $des, $fst, snd   -- exclusive OR
+
+
+= Chapter 12 =
+
+shift left logical
+sll       $des, $s, shft    -- shift left, 0<= shft<= 32
+
+Any instruction that attempts to alter $0 does nothing.
+sll $0,$0,0    -> 000000 00000 00000 00000 000000
+no-op , shiftless
+
+srl   	  $des, $s, shft    -- shift right, 0<= shft<= 32
+
+
+or	  $d, $s, $t        -- bitwise OR (2 registers)
+and	  $d, $s, $t	    -- bitwise AND (2 regs)
+xor	  $d, $s, $t	    -- bitwise XOR (2 regs)
+nor	  $d, $s, $t	    -- bitwise NOR (2 regs) = not or
+----------------------
+
+nor       $d, $s, $0 --- not $s
+or	  $d, $s, $0 --- copy $s to $d
+or	  $d, $0, $0 --- clear $d
+
+
+= Chapter 13 =
+
+addu	  d,s,t		# $d <- $s + $t. no overflow trap
+
+add	  d,s,t		# the same, but with overflow trap
+
+addiu	  d,s,const	# const sign extend to 32 bit
+addi	  d,s,const  # overflow trap
+
+subu
+sub
+
+
+= Chapter 14 =
+
+mult	  s,t	# hilo <- $s * $t , two's comp operands
+multu	  s,t	# the same, unsigned
+
+never cause trap
+两条指令后数据才可以使用
+significant bits => 有效数字 for positive / negative
+sum of 2 significant bits <= 32    <=>   hi=0x0
+
+'cause hi/lo can't be used in any instruction
+mfhi   d   	# $d <- $hi
+mflo   d	# $d <- $lo
+
+addu -> 'u' -> Do not trap on overflow
+multu 	       Operands are unsigned
+
+div	   s,t     # $s / $t = lo ... hi
+divu	   s,t	   # unsigned , lo quotient, hi remainder
+
+sra	   d,s,shft  	# shift right arithmeticly 0<= shft <31 , duplicate 
+                        sign position
+
+
+= Chapter 15 =
+
+word aligned : memory address must be a multiple of four.
+
+big endian / little endian
+Mac ..     / intel x86
+
+lw     t,off(b)      # $t <- memory add $b+off  (load word)
+       		     # b reg, off 16 bit signed 
+lw后必须有一个指令周期数据才可用
+也就是说 lw 的下一条指令不能使用 t
+
+sw     t,off(b)      # store word, b is a register. off is 16-bit two's complement.
+- address must be word aligned
+
+
+lui  t,const  # upper two bytes of $t <-- two byte const 
+              # lower two bytes of $t <-- 0x0000
+-- load upper immediate: load immediate to upper 2 byte
+
+ori	t,s,imm  can fill in the bottom half
+shorthand instruction:
+ori	$t,const    <=>     ori,$t,$t,const
+
+
+= Chapter 16 =
+
+byte is more fast than word
+
+lb   t,off(b)  # $t <-- Sign-extended byte 
+               # from memory address b+off
+               # b is a base register. 
+               # off is 16-bit two's complement.
+ 	       # load bit
+
+it copies bit 7 to bits 8-31 of the register 
+
+lbu   t,off(b) # $t <-- Zero-extended byte 
+               # from memory address b+off
+               # b is a base register. 
+               # off is 16-bit two's complement.
+
+used with ascii character or 8-bit unsigned num
+
+sb    t,off(b)   # The byte at off+b <-- low-order
+                 # byte from register $t.
+                 # b is a base register. 
+                 # off is 16-bit two's complement.
+
+SPIM auto use human friendly way to display data
+
+load halfword (two bytes, e.g. short int)
+
+lh   t,off(b)   # $t <-- Sign-extended halfword 
+                # starting at memory address b+off. 
+                # b is a base register. 
+                # off is 16-bit two's complement.
+lhu  t,off(b)   # $t <-- zero-extended halfword 
+                # starting at memory address b+off. 
+                # b is a base register. 
+                # off is 16-bit two's complement.
+
+address must be halfword aligned (mod 2=0) or trap
+
+sh    t,off(b)    # Halfword at off+b <-- low-order 
+                  # two bytes from $t.
+                  # b is a base register. 
+                  # off is 16-bit two's complement.
+
+store halfword
+
+in MIPS , all arithmetic is 32-bit
+low-order result not alway correct
+These are problems that compilers face and handle it.
+so 16-bit arithmetic is much slower that 32-bit sometimes
+
+.word
+.byte
+.space 12 # 12 bytes 
+
+
+= Chapter 17 =
+
+Before the PC changes, the instruction after the jump instruction has been fetched and executed. The instruction that follows a jump instruction in memory is said to be in the branch delay slot. 
+pipelined , pipe
+流水线
+Often the __branch delay__ slot is filled with a no-op instruction. 
+
+j    target     # after a delay of one machine cycle,
+                # PC  <-- address of target
+
+   6              26
+000010 00000000000000000000000000    -- fields of the instructuion
+
+opcode         target                -- meaning of the fields
+
+26-bit addr transformed into 32-bit addr
+
+shift left 2bit add high order 4-bit of PC to head
+
+So most jumps are local
+
+Symbolic Address
+--------------------------
+main:
+ 	...
+ 	j	main
+ 	addiu	$8,$8,1
+--------------------------
+
+Conditional branch
+
+# branch on equal
+beq  u,v,addr   # if register $u == register $v
+                #     PC  <-- addr (after a delay of one machine cycle.)
+                # else
+                #     no effect.
+
+# Branch on Not Equal
+bne  u,v,addr   # if register $u =/= register $v
+                #     PC  <-- addr (after a delay of one machine cycle.)
+                # else
+                #     no effect.
+
+# Two-way Decision
+'''
+        ...                # load values into 
+                           # $8 and $9 
+        beq  $8,$9,equal   # branch if equal
+        sll  $0,$0,0       # branch delay slot
+        ...                #  
+        ...                #  false branch
+        ...                #  
+        j    cont
+        sll  $0,$0,0       # branch delay slot
+equal:  ...                #
+        ...                #  true branch
+        ...                #
+cont:   add   $10,$10,$11  # always executed
+'''
+
+
+= Chapter 18 =
+
+Branch on Less than Zero, 
+Branch on Greater than Zero 
+
+bltz   s,label        #  Branch if the two's comp. integer
+                      #  in register s is < 0
+                      #  A branch delay slot follows the instruction.
+bgez   s,label        #  Branch if the two's comp. integer
+                      #  in register s is >= 0
+                      #  A branch delay slot follows the instruction.
+
+Both followed by a branch delay slot
+
+Set on Less Than
+
+for two's comp. integers
+
+slt   d,s,t        #  if ( $s < $t )
+                   #    d <-- 1
+                   #  else
+                   #    d <-- 0
+
+for unsigned integers
+
+sltu  d,s,t        #  if ( $s < $t )
+                   #    d <-- 1
+                   #  else
+                   #    d <-- 0
+
+Set on Less Than Immediate
+
+two's comp. integers
+slti  d,s,imm      #  if ( $s < imm ) sign-extended
+                   #    d <-- 1
+                   #  else
+                   #    d <-- 0
+
+unsigned integers
+sltiu  d,s,imm     #  if ( $s < imm ) zero-extended
+                   #    d <-- 1
+                   #  else
+                   #    d <-- 0
+
+imm 16-bit
+
+sll	$0,$0,0 must be used to avoid Delay Slot Bug
+
+Counting Loop
+loop control variable
+
+ + The counter must be initialized. 
+ + The test must end the loop on the correct count. 
+ + The counter must be increased. 
+
+----------------------
+init:   ori    $8,$0,0        # count = 0
+
+test:   sltiu  $9,$8,10       # count < 10
+        beq    $9,$0,endLp
+ 	# nop  
+        . . .                 # do stuff
+
+        addiu  $8,$8,1        # count++ ;
+        j      test
+  	# nop
+endLp:  sll    $0,$0,0        # branch target
+----------------------
+
+
+= Chapter 19 =
+
+computing power:
+	  concerned only with what can be computed.
+
+block
+
+Rule 1 of Structured Programming: A code block is structured. In flow charting terms, a box with a single entry point and single exit point is structured. 
+Rule 2 of Structured Programming: Two or more code blocks in sequence are structured. 
+Rule 3 of Structured Programming: The alternation of two code blocks is structured. 
+Rule 4 of Structured Programming: The iteration of a code block is structured. 
+Rule 5 of Structured Programming: A structure (of any size) that has a single entry point and a single exit point is equivalent to a code block. 
+
+
+Implementing Alternation
+
+--------------------
+        ...                #   
+if:     beq  $8,$9,else    # branch if equal
+        nop                # branch delay slot
+        ...                #  
+        ...                #   false branch
+        ...                #  
+        j    endif
+        nop
+else:   ...                #
+        ...                #   true branch
+        ...                #
+endif:  add   $10,$10,$11  # always executed
+--------------------
+while:  bltz   $8,endWh
+
+        . . .
+
+        j      while
+        sll    $0,$0,0
+
+endWh:  sll    $0,$0,0
+--------------------
+
+Two researchers, Böhm and Jacopini, proved that any program can be written in a structured style.
+Design and coding should not be done simultaneously.
+
+
+
+= Chapter 20 =
+
+.asciiz "asdfsad"
+size:	.word	10
+array:	.word	1,1,2,2,3,4,5,4,5,6
+
+
+= Chapter 21 =
+
+The Extended Assembler
+
+basic assembler 对应机器指令
+extended assembler
+
+- Register mnemonic names. 
+- Pseudoinstructions and the pseudocomputer. 
+- move   pseudoinstruction. 
+- li   pseudoinstruction. 
+- la   pseudoinstruction. 
+- lw   pseudoinstruction. 
+- sw   pseudoinstruction. 
+- nop   pseudoinstruction. 
+
+$0 zero Permanently 0  
+$24, $25 $t8, $t9 Temporary 
+$1 $at Assembler Temporary
+$26, $27 $k0, $k1 Kernel
+$2, $3 $v0, $v1 Value returned by a subroutine
+$28 $gp Global Pointer 
+$4-$7 $a0-$a3 Subroutine Arguments
+$29 $sp Stack Pointer 
+$8-$15 $t0-$t7 Temporary
+$30 $fp Frame Pointer 
+$16-$23 $s0-$s7 Saved registers
+$31 $ra Return Address 
+
+Only $0, $31 are different from rest
+
+temporary registers $t0-$t7,$t8, and $t9 and the saved registers
+$s0-$s7 are used for local variables  
+temporary registers may be changed after a subroutine call
+but savad registers not
+
+group:
+1.variables and arguments in subroutines ($0, $v0-$v1, $a0-$a3, $t0-$t9,
+$s0-$s7), 
+2.other
+The most fundamental part of an operating system is the kernel. The
+kernel contains the most fundamental parts of the OS. The rest of the
+OS is mostly implemented using the functions provided by the
+kernel. Two registers, $k0 and $k1, are reserved for the
+kernel. Applications programs (and most OS subroutines) should not
+touch them.  
+$gp, $sp, and $fp are base registers used for access to various parts
+of memory.
+
+
+= Pseudoinstructions / 伪指令=
+
+A pseudoinstruction is an instruction that the extended assembler
+replaces with one or more basic assembly instructions.
+
+addu $t5,zero,$t7
+
+move d,s        #  copy the contents of 
+                #  the source register s
+                #  to the destination register d
+                #  (pseudoinstruction)
+
+$d <- $s
+
+d, s 可以是助记名称, 也可以是通用寄存器名称.
+
+Load Immediate
+
+li   d,value        #  load register $d with the 
+                    #  positive or negative integer
+                    #  "value".  Value may be a 
+                    #  16 or a 32-bit integer. 
+                    #  (pseudoinstruction)
+$d <- value
+
+li $v2,-153   ==   addiu $v2,$0,-153
+ori 不可使用有符号数字(16 bits)
+
+li $v2,0x12345678      ==     lui $v2,0x1234  
+   		             ori $v2,$v2,0x5678  
+ori 和 lui 只能操作16位数字
+li 将指令自动转换为最有效的操作序列
+
+Load Address
+
+la   d,exp          #  load register $d with the address
+                    #  described by the expression "exp"
+                    #  "exp" is often a symbolic address
+                    #  (pseudoinstruction)
+
+$d <- &exp
+储存指针的寄存器保存的是指针. 基址
+并不访问内存
+使用 lui 和 ori 实现, 操作数为 $1 , $at assembler temporary
+assembler temporary register 用于将伪指令转换为汇编指令中间接变量
+一些伪指令和汇编指令名称相同, 例如
+
+lw    $t1,exp    #  load value at  address exp
+
+lw    d,exp      #  Load register $d with the value at 
+                 #  address exp.  exp can be any
+                 #  of several expression types 
+                 #  that evaluate to  an address
+                 #  (pseudoinstruction) 
+
+$d <- exp
+
+lw $t0,data   ==   lui $1,0x1000
+                   lw $8,4($1)
+
+The extended assembler and its pseudoinstructions makes it look like
+you are programming a pseudocomputer—a computer system that is richer
+in features and more convenient to program than the actual
+hardware. (Often this is called a "virtual computer"; but to avoid
+confusion I'll say that pseudoinstructions run on the pseudocomputer.)
+This idea of implementing a virtual machine on top of another machine
+(which may also be virtual) is very important in computer science.

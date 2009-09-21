@@ -1,0 +1,322 @@
+Erlang 学习笔记
+Feather.et.ELF(andelf)
+%%mtime(%c)
+
+%!target: html
+%!encoding: utf-8
+
+
+%% txt2tags -t html --css-sugar --style style.css --enum-title --toc --toc-level 2 
+=================================================
+
+%% 笔记开始
+
+%%toc
+
+=================================================
+
+%% 第 1 章
+
+=你需要知道的=
+
+学习 Erlang 的理由:
+
+- 你需要编写在多核心处理器上运行速度快的程序
+- 你需要编写容错能力强的程序, 可以在执行时修改代码
+- 你想感受下"函数"编程的魔力
+- 你需要使用一种有着工业应用, 而且有大量库和活跃用户社区的语言
+- 你不想书写大量的代码
+
+
+
+-------------------------------------------------
+
+%% 第 2 章
+
+=准备开始=
+
+==安装 Erlang==
+
+Debian 系统:
+
+``` > apt-get install erlang
+
+源代码编译:
+
+```
+$ tar -xzf otp_src_R11B-4.tar.gz
+$ cd otp_src_R11B-4
+$ ./configure
+$ make
+$ sudo make install
+```
+
+使用 ``./configure --help`` 命令察看可用选项.
+
+确保可以在命令行下执行 Erlang . 在 Windows 下应将 Erlang 安装目录中的 /bin 加入
+PATH .
+
+```
+$ erl
+Erlang (BEAM) emulator version 5.5.2 [source] ... [kernel-poll:false]
+
+Eshell V5.5.2   (abort with ^G)
+1>
+```
+
+使用 Ctrl+G 或者 ``q()`` 命令退出.
+
+==启动 Shell==
+
+```
+$ erl
+Eshell V5.5.2   (abort with ^G)
+1> % I'm going to enter some expressions in the shell ..
+1> 20 + 30.
+50
+2>
+```
+
++ 键入命令, shell 会告诉你当前的 Erlang 版本.
++ 百分号 (``%``) 代表注释. ``1>`` 为提示符.
++ shell 重复 ``1>`` 提示符, 因为我们没有输入一个完整的命令.
++ 输入 20 + 30 , 然后一个句号 "``.``". 这里的句号不能省略.
++ shell 计算出表达式, 返回结果.
++ 提示符自动改变为 ``2>`` .
+
+
+
+==简单数学运算==
+
+```
+1> 2 + 3 * 4.
+14
+2> (2 + 3) * 4.
+20
+```
+
+如果输入命令后 shell 没有反应, 请检查是否有句号 (``.``), 或者是否已输入的句号在
+某个未关闭的引号范围内. 还可以使用 Ctrl+C (或者 Windows 下的 Ctrl+Break ).
+
+大数字运算:
+
+```
+3> 123456789 * 987654321 * 112233445566778899 * 998877665544332211.
+13669560260321809985966198898925761696613427909935341
+```
+
+基于进制的运算:
+
+```
+4> 16#cafe * 32#sugar.
+1577682511434
+```
+
+==变量==
+
+```
+1> X=123456789.
+123456789
+```
+
+所有的变量名首字母必须大写.
+
+```
+2> X.
+123456789
+3> X * X * X * X.
+232305722798259244150093798251441
+```
+
+Erlang 中的变量的特殊性:
+
+```
+4> X = 1234.
+
+=ERROR REPORT==== 20-Aug-2007::01:34:26 ===
+Error in process <0.30.0> with exit value: {{badmatch,1234},[{erl_eval,expr,3}]}
+
+** exited: {{badmatch,1234},[{erl_eval,expr,3}]} **
+```
+
++ 这些是变量, 但它们的值只能改变一次. (从未绑定到拥有一个值)
++ ``=`` 是模式匹配操作符, 而不是赋值操作. 在 X 为未绑定变量时与赋值操作相同.
++ 当 X 位于函数体中时, 它的作用域只在函数中.
+
+
+模式匹配:
+
+```
+1> X = (2+4).
+6
+2> Y = 10.
+10
+3> X = 6.
+6
+4> X = Y.
+=ERROR REPORT==== 20-Aug-2007::01:41:57 ===
+Error in process <0.30.0> with exit value: {{badmatch,10},[{erl_eval,expr,3}]}
+** exited: {{badmatch,10},[{erl_eval,expr,3}]} **
+5> Y = 10.
+10
+6> Y = X.
+=ERROR REPORT==== 20-Aug-2007::01:42:06 ===
+Error in process <0.35.0> with exit value: {{badmatch,6},[{erl_eval,expr,3}]}
+** exited: {{badmatch,6},[{erl_eval,expr,3}]} **
+```
+
+例如, 当 X = 6 时, 匹配成功. 而其他会导致错误.
+
+==浮点数==
+
+```
+1> 5/3.
+1.66667
+2> 4/2.
+2.00000
+3> 5 div 3.
+1
+4> 5 rem 3.
+2
+5> 4 div 2.
+2
+6> Pi = 3.14159.
+3.14159
+7> R = 5.
+5
+8> Pi * R * R.
+78.5397
+```
+
+"``/``" 总是返回浮点数, ``div`` 和 ``rem`` (取余数)用于整数除法.
+
+==Atoms==
+
+atoms 用于代表非数值的常量. 以小写字母开头, 可以包含任意字母或者 @ 符号. 也可以使用单引号 (') 
+创建如 'Monday', '+', 'an atom with spaces' 这样的 atoms.
+
+```
+1> hello.
+hello
+```
+
+==元组 Tuples==
+
+``` P = {10, 45}
+
+为了辨别元组是干什么的, 通常将元组的第一个元素设置为 atom . 
+例如用 ``{point, 10, 45}`` 代替 ``{10, 45}`` .
+
+```
+1> Person={person,
+                {name,joe},
+                {height,1.82},
+                {footsize,42},
+                {eyecolour,brown}}.
+```
+
+创建元组, 可以使用变量引用:
+
+```
+2> F = {firstName,joe}.
+{firstName,joe}
+3> L = {lastName,armstrong}.
+{lastName,armstrong}
+4> P = {person, F, L}.
+{person,{firstName,joe},{lastName,armstrong}}
+5> {true, Q, 23, Costs}.
+** 1: variable 'Q' is unbound **
+```
+
+从元组中提取数据, 使用匹配操作符 ``=`` :
+
+```
+1> Point = {point, 10, 45}.
+{point,10,45}.
+2> {point, X, Y} = Point.
+{point,10,45}
+3> X.
+10
+4> Y.
+45
+```
+
+处理复杂元组:
+
+```
+1> Person={person,{name,{first,joe},{last,armstrong}},{footsize,42}}.
+{person,{name,{first,joe},{last,armstrong}},{footsize,42}}
+2> {_,{_,{_,Who},_},_}=Person.
+{person,{name,{first,joe},{last,armstrong}},{footsize,42}}
+3> Who.
+joe
+```
+
+"``_``" 叫做匿名变量, 代表我们不关心的变量, 在同个模式下可以代表不同的值.
+
+==列表==
+
+```
+1> ThingsToBuy = [{apples,10}, {pears,6}, {milk,3}].
+[{apples,10},{pears,6},{milk,3}]
+2> [1+7, hello, 2-2, {cost,apple,30-20}, 3].
+[8,hello,0,{cost,apple,10},3]
+3> ThingsToBuy1 = [{oranges,4}, {newspaper,1} | ThingsToBuy].
+[{oranges,4},{newspaper,1},{apples,10},{pears,6},{milk,3}]
+```
+
+从列表中取出元素, 同样使用匹配操作符.
+
+==字符串==
+
+```
+1> Name = "Andelf".
+"Andelf"
+```
+
+字符串和列表有时可看做同一对象, 例如:
+
+```
+2> [1,2,3].
+[1,2,3]
+3> [83,117,114,112,114,105,115,101].
+"Surprise"
+4> [1,83,117,114,112,114,105,115,101].
+[1,83,117,114,112,114,105,115,101].
+```
+
+当列表中所有元素为可打印字符时, 列表就被作为字符串看待.
+
+使用 ``$`` 获得代表指定字符的 ASCII 码.
+```
+5> I = $s.
+115
+6> [I-32, $u, $r].
+"Sur"
+7> 
+```
+
+在 Erlang 看来, 字符串只是一个由整数组成的列表. 在终端设置正确的情况下
+会正常显示.
+
+另外 ``f()`` 命令意思是 forget , 取消当前所有绑定的变量.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
