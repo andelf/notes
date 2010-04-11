@@ -2,23 +2,23 @@
 <?xml-stylesheet ekr_test?>
 <leo_file>
 <leo_header file_format="2" tnodes="0" max_tnode_index="0" clone_windows="0"/>
-<globals body_outline_ratio="0.5">
-	<global_window_position top="38" left="891" height="600" width="800"/>
+<globals body_outline_ratio="0.5" body_secondary_ratio="0.5">
+	<global_window_position top="50" left="50" height="500" width="700"/>
 	<global_log_window_position top="0" left="0" height="0" width="0"/>
 </globals>
 <preferences/>
 <find_panel_settings/>
 <vnodes>
-<v t="andelf.20090814081214.1230" str_leo_pos="1,0,3,1"><vh>@chapters</vh></v>
+<v t="andelf.20090814081214.1230"><vh>@chapters</vh></v>
 <v t="andelf.20090814081214.1229" a="E"><vh>Linux</vh>
-<v t="andelf.20090814081214.1231" a="E"><vh>Arch Linux</vh>
+<v t="andelf.20090814081214.1231"><vh>Arch Linux</vh>
 <v t="andelf.20090814081214.1232"><vh>pacman的使用</vh>
 <v t="andelf.20090814081214.1238"><vh>简要</vh></v>
 <v t="andelf.20090814081214.1234"><vh>其它用法</vh></v>
 </v>
 <v t="andelf.20090814081214.1235"><vh>进入X无法使用键盘鼠标</vh></v>
 <v t="andelf.20090814081214.1236"><vh>ssh 服务器设置</vh></v>
-<v t="andelf.20090814081214.1237" a="E"><vh>Openbox + slim + pypanel + thunar</vh>
+<v t="andelf.20090814081214.1237"><vh>Openbox + slim + pypanel + thunar</vh>
 <v t="andelf.20090814081214.1239"><vh>slim</vh></v>
 <v t="andelf.20090814081214.1240"><vh>OpenBox</vh></v>
 <v t="andelf.20090814081214.1241"><vh>pypannel</vh></v>
@@ -28,6 +28,8 @@
 <v t="andelf.20090814081214.1243"><vh>自动启动</vh></v>
 </v>
 </v>
+<v t="andelf.20100411113911.1408"><vh>run instead start</vh></v>
+<v t="andelf.20100411113911.1409"><vh>10 个最酷的 Linux 单行命令</vh></v>
 </v>
 </vnodes>
 <tnodes>
@@ -250,5 +252,92 @@ DAEMONS=(syslog-ng network hal fam gdm)</t>
 # Xorg -configure
 
 或者使用 cat /var/log/Xorg.0.log 中获取</t>
+<t tx="andelf.20100411113911.1408">Recent versions of ubuntu ship with upstart, which is the least modern of the modern system facilities, but at least does allow you to specify that you want to run an application instead of just start it.
+
+Here’s an example upstart script I wrote for a twisted app that I needed to keep running on an ubuntu box:
+
+"""
+description	"useful description"
+author		"Dustin Sallings &lt;dustin@spy.net&gt;"
+
+start on runlevel 2
+start on runlevel 3
+
+stop on runlevel 0
+stop on runlevel 1
+stop on runlevel 4
+stop on runlevel 5
+stop on runlevel 6
+
+chdir /path/to/project/directory
+exec /usr/bin/twistd --uid=daemonuser --syslog -ny project.tac
+respawn
+"""
+Note that this relies on twistd to change the uid since it’s more straightforward than using su or sudo to change the userid before invoking the start script.
+
+#####################################3
+
+Generic Linux
+On any vanilla Linux system (that is, systems that don’t use a modern init as well as other systems with similar init mechanisms), you can do something similar to the above with /etc/inittab, although it has no implicit argument, so you can directly invoke sshd.
+
+For example, the following works on my RedHat 5.4 box:
+
+sshd:2345:respawn:/usr/sbin/sshd -DAfter adding this entry (and, of course, making sure you don’t already have an sshd server running), you can run /sbin/telinit q to get it to reload.
+
+#########################################
+
+FreeBSD
+FreeBSD, and most BSDs for that matter have an init that will supervise processes defined in /etc/ttys. This is about as primitive as it can get, but it works fine.
+
+For example, if you wanted to run sshd on a FreeBSD box and make sure that it can never die, you could add the following to /etc/ttys:
+
+sshd "/usr/local/etc/sshd_tty" unknown onThe script, /usr/local/etc/sshd_tty exists primarily to eat the implicit argument init passes to the program it runs. For this, I used the following script:
+
+#!/bin/sh
+exec /usr/sbin/sshd -D
+/etc/ttys basically exists for getty type services, but it’s suitable for any other process that needs to be supervised.
+
+After any modification to /etc/ttys, you must run init q for your changes to take effect.
+
+</t>
+<t tx="andelf.20100411113911.1409">$ sudo !!
+
+以 root 帐户执行上一条命令。
+
+$ python -m SimpleHTTPServer
+
+利用 Python 搭建一个简单的 Web 服务器，可通过 http://$HOSTNAME:8000 访问。
+
+:w !sudo tee %
+
+在 Vim 中无需权限保存编辑的文件。
+
+$ cd -
+
+更改到上一次访问的目录。
+
+$ ^foo^bar
+
+将上一条命令中的 foo 替换为 bar，并执行。
+
+$ cp filename{,.bak}
+
+快速备份或复制文件。
+
+$ mtr google.com
+
+traceroute + ping。
+
+$ !whatever:p
+
+搜索命令历史，但不执行。
+
+$ ssh-copy-id user@host
+
+将 ssh keys 复制到 user@host 以启用无密码 SSH 登录。
+
+$ ffmpeg -f x11grab -s wxga -r 25 -i :0.0 -sameq /tmp/out.mpg
+
+把 Linux 桌面录制为视频。</t>
 </tnodes>
 </leo_file>

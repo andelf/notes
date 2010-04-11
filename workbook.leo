@@ -10,15 +10,11 @@
 <find_panel_settings/>
 <vnodes>
 <v t="andelf.20100313122825.1226"><vh>@chapters</vh></v>
-<v t="andelf.20100319235445.1254" a="E"><vh>Notes</vh>
-<v t="andelf.20100319235445.1255" a="E"><vh>Linux</vh>
-<v t="andelf.20100331192249.1275"><vh>run instead os start</vh></v>
-<v t="andelf.20100319235445.1256"><vh>10 个最酷的 Linux 单行命令</vh></v>
-</v>
-<v t="andelf.20100331192249.1266" a="E"><vh>Ruby</vh>
+<v t="andelf.20100319235445.1254"><vh>Notes</vh>
+<v t="andelf.20100331192249.1266"><vh>Ruby</vh>
 <v t="andelf.20100331192249.1267"><vh>Misc</vh></v>
 </v>
-<v t="andelf.20100331192249.1263" a="E"><vh>IronPython</vh>
+<v t="andelf.20100331192249.1263"><vh>IronPython</vh>
 <v t="andelf.20100331192249.1265"><vh>Shell</vh></v>
 <v t="andelf.20100331192249.1268"><vh>Types</vh></v>
 <v t="andelf.20100331192249.1269"><vh>BIFs</vh></v>
@@ -27,7 +23,6 @@
 <v t="andelf.20100331192249.1273"><vh>Write Application/Design Pattern</vh></v>
 <v t="andelf.20100331192249.1280"><vh>First class function in action</vh></v>
 <v t="andelf.20100331192249.1284"><vh>XML Settings</vh></v>
-<v t="andelf.20100331192249.1281"><vh>newHeadline</vh></v>
 <v t="andelf.20100331192249.1279"><vh>重载方法</vh></v>
 <v t="andelf.20100331192249.1276"><vh>异常对应关系</vh></v>
 <v t="andelf.20100331192249.1270"><vh>Misc</vh></v>
@@ -36,7 +31,7 @@
 <v t="andelf.20100331192249.1282"><vh>GoLang</vh></v>
 </v>
 </v>
-<v t="andelf.20100313122825.1234" a="E"><vh>service</vh>
+<v t="andelf.20100313122825.1234"><vh>service</vh>
 <v t="andelf.20100325195808.1258"><vh>Zope/Plone</vh>
 <v t="andelf.20100325195808.1259"><vh>Plone</vh>
 <v t="andelf.20100325195808.1262"><vh>protal_actions</vh></v>
@@ -50,10 +45,10 @@
 <v t="andelf.20100313122825.1242"><vh>MySQL</vh></v>
 <v t="andelf.20100313122825.1235"><vh>MoinMoin</vh></v>
 </v>
-<v t="andelf.20100313122825.1225" a="E"><vh>neup</vh>
+<v t="andelf.20100313122825.1225"><vh>neup</vh>
 <v t="andelf.20100313122825.1236"><vh>202.118.17.187</vh></v>
 <v t="andelf.20100313122825.1227" a="E"><vh>202.118.17.188</vh>
-<v t="andelf.20100313122825.1231" a="E"><vh>DataBase</vh>
+<v t="andelf.20100313122825.1231"><vh>DataBase</vh>
 <v t="andelf.20100313122825.1232"><vh>neupwww</vh>
 <v t="andelf.20100313122825.1233"><vh>addonarticle</vh></v>
 </v>
@@ -85,9 +80,7 @@ body # 新闻主题
 redirecturl #  
 templet # 
 userip # 提交者ip</t>
-<t tx="andelf.20100313122825.1234">HBase、Voldemort、MongoDB、MemcacheDB、Redis、Cassandra、HyperTable、 Cassandra
-
-</t>
+<t tx="andelf.20100313122825.1234"></t>
 <t tx="andelf.20100313122825.1235">Setting up a MoinMoin wiki
 for historical purposes here is how I got my wiki set up 
 
@@ -168,67 +161,16 @@ mysql_port: 3306
 表名字需要察看代码.
 
 总体来说, 很废柴. 就是个垃圾.</t>
-<t tx="andelf.20100313122825.1242">建立新表
+<t tx="andelf.20100313122825.1242">other db: HBase、Voldemort、MongoDB、MemcacheDB、Redis、Cassandra、HyperTable、 Cassandra
+
+建立新表
 
 $ mysql -uroot -pxxxxx
 &gt; create database xxxx;
 &gt; show databases;
 &gt; GRANT ALL ON employees.* TO manish@localhost IDENTIFIED BY "eagle" </t>
 <t tx="andelf.20100313122825.1243"></t>
-<t tx="andelf.20100319235445.1254">&gt;&gt;&gt; import sys
-&gt;&gt;&gt; sys.path
-['C:\\IronPython', 'C:\\IronPython\\Lib']
-&gt;&gt;&gt; sys.path.append(r'C:\ModuleTestingWithPython\TwoCardPokerLib\bin\  Debug')
-&gt;&gt;&gt; sys.path
-['C:\\IronPython', 'C:\\IronPython\\Lib', 'C:\\ModuleTestingWithPython\\  TwoCardPokerLib\\bin\\Debug']
-&gt;&gt;&gt;
-&gt;&gt;&gt; import clr
-&gt;&gt;&gt; dir()
-['_', '__builtins__', '__doc__', '__name__', 'clr', 'site', 'sys']
-&gt;&gt;&gt;
-&gt;&gt;&gt; clr.AddReferenceToFile("TwoCardPokerLib.dll")
-&gt;&gt;&gt; from TwoCardPokerLib import *
-&gt;&gt;&gt; dir()</t>
-<t tx="andelf.20100319235445.1255"></t>
-<t tx="andelf.20100319235445.1256">$ sudo !!
-
-以 root 帐户执行上一条命令。
-
-$ python -m SimpleHTTPServer
-
-利用 Python 搭建一个简单的 Web 服务器，可通过 http://$HOSTNAME:8000 访问。
-
-:w !sudo tee %
-
-在 Vim 中无需权限保存编辑的文件。
-
-$ cd -
-
-更改到上一次访问的目录。
-
-$ ^foo^bar
-
-将上一条命令中的 foo 替换为 bar，并执行。
-
-$ cp filename{,.bak}
-
-快速备份或复制文件。
-
-$ mtr google.com
-
-traceroute + ping。
-
-$ !whatever:p
-
-搜索命令历史，但不执行。
-
-$ ssh-copy-id user@host
-
-将 ssh keys 复制到 user@host 以启用无密码 SSH 登录。
-
-$ ffmpeg -f x11grab -s wxga -r 25 -i :0.0 -sameq /tmp/out.mpg
-
-把 Linux 桌面录制为视频。</t>
+<t tx="andelf.20100319235445.1254"></t>
 <t tx="andelf.20100323230925.1257"># add to /etc/httpd/conf/httpd.conf
 # LoadModule python_module modules/mod_python.so
 &lt;Location "/dreams"&gt;
@@ -380,7 +322,24 @@ Application.Run(form)  # start app
 
 可以导入 tutorial 目录下的 winforms.py 这样 console 会设置另个线程, GUI 不会 block shell. 可以使用 form.Show()
 但是 modal(模态) 的 ShowDialog() 会 Block
-</t>
+
+
+####
+
+&gt;&gt;&gt; import sys
+&gt;&gt;&gt; sys.path
+['C:\\IronPython', 'C:\\IronPython\\Lib']
+&gt;&gt;&gt; sys.path.append(r'C:\ModuleTestingWithPython\TwoCardPokerLib\bin\  Debug')
+&gt;&gt;&gt; sys.path
+['C:\\IronPython', 'C:\\IronPython\\Lib', 'C:\\ModuleTestingWithPython\\  TwoCardPokerLib\\bin\\Debug']
+&gt;&gt;&gt;
+&gt;&gt;&gt; import clr
+&gt;&gt;&gt; dir()
+['_', '__builtins__', '__doc__', '__name__', 'clr', 'site', 'sys']
+&gt;&gt;&gt;
+&gt;&gt;&gt; clr.AddReferenceToFile("TwoCardPokerLib.dll")
+&gt;&gt;&gt; from TwoCardPokerLib import *
+&gt;&gt;&gt; dir()</t>
 <t tx="andelf.20100331192249.1266">@language ruby</t>
 <t tx="andelf.20100331192249.1267">a.class =&gt; class/type of a
 a.methods =&gt; dir(a)
@@ -544,54 +503,6 @@ toolbar.Items.Add(button)
 toolbar.Dock = DockStyle.Top # 默认
 toolbar.GripStyle = ToolStripGripStyle.Hidden # 去掉位置调整 handle
 </t>
-<t tx="andelf.20100331192249.1275">Recent versions of ubuntu ship with upstart, which is the least modern of the modern system facilities, but at least does allow you to specify that you want to run an application instead of just start it.
-
-Here’s an example upstart script I wrote for a twisted app that I needed to keep running on an ubuntu box:
-
-"""
-description	"useful description"
-author		"Dustin Sallings &lt;dustin@spy.net&gt;"
-
-start on runlevel 2
-start on runlevel 3
-
-stop on runlevel 0
-stop on runlevel 1
-stop on runlevel 4
-stop on runlevel 5
-stop on runlevel 6
-
-chdir /path/to/project/directory
-exec /usr/bin/twistd --uid=daemonuser --syslog -ny project.tac
-respawn
-"""
-Note that this relies on twistd to change the uid since it’s more straightforward than using su or sudo to change the userid before invoking the start script.
-
-#####################################3
-
-Generic Linux
-On any vanilla Linux system (that is, systems that don’t use a modern init as well as other systems with similar init mechanisms), you can do something similar to the above with /etc/inittab, although it has no implicit argument, so you can directly invoke sshd.
-
-For example, the following works on my RedHat 5.4 box:
-
-sshd:2345:respawn:/usr/sbin/sshd -DAfter adding this entry (and, of course, making sure you don’t already have an sshd server running), you can run /sbin/telinit q to get it to reload.
-
-#########################################
-
-FreeBSD
-FreeBSD, and most BSDs for that matter have an init that will supervise processes defined in /etc/ttys. This is about as primitive as it can get, but it works fine.
-
-For example, if you wanted to run sshd on a FreeBSD box and make sure that it can never die, you could add the following to /etc/ttys:
-
-sshd "/usr/local/etc/sshd_tty" unknown onThe script, /usr/local/etc/sshd_tty exists primarily to eat the implicit argument init passes to the program it runs. For this, I used the following script:
-
-#!/bin/sh
-exec /usr/sbin/sshd -D
-/etc/ttys basically exists for getty type services, but it’s suitable for any other process that needs to be supervised.
-
-After any modification to /etc/ttys, you must run init q for your changes to take effect.
-
-</t>
 <t tx="andelf.20100331192249.1276"># ?? 使用前面的 Python exception 即可
 Exception System.Exception
 StandardError SystemException
@@ -656,7 +567,6 @@ System.XML.XPath  XQuery 1.0, XPath 2.0
 System.XML.Xsl
 
 </t>
-<t tx="andelf.20100331192249.1281"></t>
 <t tx="andelf.20100331192249.1282">Google Go：初级读本
 Tags: Go, golang, google 
 from http://www.infoq.com/cn/articles/google-go-primer
