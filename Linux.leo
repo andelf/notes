@@ -305,6 +305,8 @@ After any modification to /etc/ttys, you must run init q for your changes to tak
 以 root 帐户执行上一条命令。
 
 $ python -m SimpleHTTPServer
+$ python -m CGIHTTPServer # 需要放入 cgi-bin 子目录
+$ python3 -m http.server
 
 利用 Python 搭建一个简单的 Web 服务器，可通过 http://$HOSTNAME:8000 访问。
 

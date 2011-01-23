@@ -2,28 +2,28 @@
 <?xml-stylesheet ekr_test?>
 <leo_file>
 <leo_header file_format="2" tnodes="0" max_tnode_index="0" clone_windows="0"/>
-<globals body_outline_ratio="0.504658385093">
-	<global_window_position top="203" left="410" height="644" width="779"/>
+<globals body_outline_ratio="0.5" body_secondary_ratio="0.5">
+	<global_window_position top="50" left="50" height="500" width="700"/>
 	<global_log_window_position top="0" left="0" height="0" width="0"/>
 </globals>
 <preferences/>
 <find_panel_settings/>
 <vnodes>
 <v t="andelf.20090801132916"><vh>@chapters</vh></v>
-<v t="andelf.20090801133028" a="E"><vh>CSharp Language Specification</vh>
+<v t="andelf.20090801133028"><vh>CSharp Language Specification</vh>
 <v t="andelf.20090801133028.1" a="E"><vh>Introduction</vh>
 <v t="andelf.20090801134521"><vh>Hello World</vh></v>
 <v t="andelf.20090801134521.1"><vh>Program Structure</vh></v>
 <v t="andelf.20090801164508"><vh>Types and variables</vh></v>
 <v t="andelf.20090801204842"><vh>Expressions</vh></v>
 <v t="andelf.20090802173832"><vh>Statements</vh></v>
-<v t="andelf.20090802173832.1" a="E"><vh>Classes and objects</vh>
+<v t="andelf.20090802173832.1"><vh>Classes and objects</vh>
 <v t="andelf.20090802174929"><vh>Members</vh></v>
 <v t="andelf.20090802174929.1"><vh>Accessibility</vh></v>
 <v t="andelf.20090802174929.2"><vh>Type parameters</vh></v>
 <v t="andelf.20090802175113"><vh>Base classes</vh></v>
 <v t="andelf.20090802182114"><vh>Fields</vh></v>
-<v t="andelf.20090802182114.1" a="E"><vh>Methods</vh>
+<v t="andelf.20090802182114.1"><vh>Methods</vh>
 <v t="andelf.20090802182944"><vh>Parameters</vh></v>
 <v t="andelf.20090802182944.1"><vh>Method body and local variables</vh></v>
 <v t="andelf.20090803013311"><vh>Static and instance methods</vh></v>
@@ -32,10 +32,13 @@
 </v>
 </v>
 </v>
-<v t="andelf.20090801224436" a="ETV"><vh>C# Tutorials</vh>
+<v t="andelf.20090801224436"><vh>C# Tutorials</vh>
 <v t="andelf.20090801224436.1"><vh>Properties</vh></v>
 <v t="andelf.20090802020839"><vh>Libraries</vh></v>
 <v t="andelf.20090802020839.1"><vh>Versioning</vh></v>
+</v>
+<v t="andelf.20100415150027.1367" a="E"><vh>WPF</vh>
+<v t="andelf.20100415150027.1368"><vh>Build</vh></v>
 </v>
 </vnodes>
 <tnodes>
@@ -796,5 +799,17 @@ class Test
 静态方法使用 classname.staticmethodname(parms) 调用.
 </t>
 <t tx="andelf.20090803013342"></t>
+<t tx="andelf.20100415150027.1367"></t>
+<t tx="andelf.20100415150027.1368">http://blog.ganeshzone.net/blog/index.php/2009/11/wpf-through-the-c-command-line-compiler-csc-exe/
+csc.exe /out:..\execut~1\%1.exe ..\codebase\%1.cs /reference:”C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\PresentationCore.dll” /reference:”C:\Program Files\Reference
+Assemblies\Microsoft\Framework\v3.0\PresentationFrameWork.dll” /reference:”C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll”
+
+Here you can see the three dlls that are must for a WPF application.
+
+PresentationCore.dll
+PresentationFramework.dll
+WindowsBase.dll
+
+E:\works\csharp&gt;csc wfpdeme.cs /lib:c:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\WPF /r:PresentationCore.dll /r:PresentationFramework.dll /r:WindowsBase.dll /r:System.Xaml.dll</t>
 </tnodes>
 </leo_file>
