@@ -1,6 +1,4 @@
-
-
-+ »ù±¾ÖªÊ¶ +
++ åŸºæœ¬çŸ¥è¯† +
 
 help()
 help(c)
@@ -8,10 +6,9 @@ object()
 rm(x,y)
 
 
++ ç®€å•è®¡ç®—å¤„ç† +
 
-+ ¼òµ¥¼ÆËã´¦Àí +
-
-++ ÏòÁ¿ºÍ¸³Öµ ++
+++ å‘é‡å’Œèµ‹å€¼ ++
 
 > x <- c(10.4, 5.6, 3.1, 6.4, 21.7)
 
@@ -21,7 +18,7 @@ x = c(10.4, 5.6, 3.1, 6.4, 21.7)
 
 > c(10.4, 5.6, 3.1, 6.4, 21.7) -> x
 
-++ ÏòÁ¿ËãÊı ++
+++ å‘é‡ç®—æ•° ++
 
 > v <- 2*x + y + 1
 
@@ -36,13 +33,13 @@ statistical functions:
 	    var(x) =  sum((x-mean(x))^2)/(length(x)-1)
 sort(x)
 
-×¢Òâ:
-sqrt(-17) ÖµÎª NaN ¶ø sqrt(-17+0i) ÕıÈ·
-pmax , pmin ·µ»Ø´¦ÀíÏòÁ¿.
+æ³¨æ„:
+sqrt(-17) å€¼ä¸º NaN è€Œ sqrt(-17+0i) æ­£ç¡®
+pmax , pmin è¿”å›å¤„ç†å‘é‡.
 
-++ Éú³ÉĞòÁĞ ++
+++ ç”Ÿæˆåºåˆ— ++
 
-1:30 
+1:30
 2*1:30 = 2 * (1:30)
 30:1
 seq(from = 1, to = 1, by = ((to - from)/(length.out - 1)),
@@ -50,16 +47,16 @@ seq(from = 1, to = 1, by = ((to - from)/(length.out - 1)),
 rep(x,times=5)
 rep(x,each=5)
 
-++ Âß¼­ÏòÁ¿ ++
+++ é€»è¾‘å‘é‡ ++
 
 > temp <- x > 13
-Âß¼­²Ù×÷: <, <=, >, >=, == 
+é€»è¾‘æ“ä½œ: <, <=, >, >=, ==
 & |
 TRUE FALSE
 
-++ ¶ªÊ§µÄÖµ ++
+++ ä¸¢å¤±çš„å€¼ ++
 
-is.na(x) Óë x== NA µÄÇø±ğ
+is.na(x) ä¸ x== NA çš„åŒºåˆ«
 
 > z <- c(1:3,NA);  ind <- is.na(z)
 
@@ -67,121 +64,121 @@ NaN
 is.na(x)
 is.nan(x)
 
-++ ×Ö·ûÏòÁ¿ ++
+++ å­—ç¬¦å‘é‡ ++
 
 labs <- paste(c("X","Y"), 1:10, sep="")
 
 c("X1", "Y2", "X3", "Y4", "X5", "Y6", "X7", "Y8", "X9", "Y10")
 
-++ Ë÷ÒıÏòÁ¿;Ñ¡ÔñĞŞ¸ÄÊı¾İ¼¯ºÏµÄ×Ó¼¯ ++
+++ ç´¢å¼•å‘é‡;é€‰æ‹©ä¿®æ”¹æ•°æ®é›†åˆçš„å­é›† ++
 
 > y <- x[!is.na(x)]
 > (x+1)[(!is.na(x)) & x>0] -> z
 > x[1:10]
 > c("x","y")[rep(c(1,2,2,1), times=4)]
-²»°üº¬
+ä¸åŒ…å«
 > y <- x[-(1:5)]
-×Ö·û´®Ë÷Òı
+å­—ç¬¦ä¸²ç´¢å¼•
 > fruit <- c(5, 10, 1, 20)
 > names(fruit) <- c("orange", "banana", "apple", "peach")
 > lunch <- fruit[c("apple","orange")]
 
 
 > x[is.na(x)] <- 0
-replaces any missing values in x by zeros and 
+replaces any missing values in x by zeros and
 > y[y < 0] <- -y[y < 0]
-has the same effect as 
+has the same effect as
 > y <- abs(y)
 
 ======================
 
 
-+ ÆäËû¶ÔÏóÀàĞÍ +
++ å…¶ä»–å¯¹è±¡ç±»å‹ +
 
-++ ±¾ÖÊÊôĞÔ, mode ºÍ length ++
+++ æœ¬è´¨å±æ€§, mode å’Œ length ++
 
-ÏòÁ¿ÖĞµÄ³ÉÔ±±ØĞëÓĞÏàÍ¬µÄ mode .
+å‘é‡ä¸­çš„æˆå‘˜å¿…é¡»æœ‰ç›¸åŒçš„ mode .
 mode(x) length(x)
 
 > z <- 0:9
-> digits <- as.character(z) 
+> digits <- as.character(z)
 > d <- as.integer(digits)
 
-++ ¸Ä±ä¶ÔÏóµÄ length ++
-¿Õ¶ÔÏó
+++ æ”¹å˜å¯¹è±¡çš„ length ++
+ç©ºå¯¹è±¡
 > e <- numeric()
-> e[3] <- 17
+
 # NA NA 17
-ÉèÖÃ³¤¶È
+è®¾ç½®é•¿åº¦
 > alpha <- alpha[2 * 1:5]
 > length(alpha) <- 3
 
-++ »ñµÃÉèÖÃÊôĞÔ ++
+++ è·å¾—è®¾ç½®å±æ€§ ++
 attributes(object)
-attr(object, name) 
+attr(object, name)
 > attr(z, "dim") <- c(10,10)
-ÉèÖÃ z Îª 10 Î¬ matrix
+è®¾ç½® z ä¸º 10 ç»´ matrix
 
 x <- 1:10
 attr(x,"dim") <- c(2, 5)
 
-++ ¶ÔÏóµÄÀà ++
+++ å¯¹è±¡çš„ç±» ++
 
-ËùÓĞµÄ¶ÔÏó¶¼ÓĞÒ»¸ö class 
-class(x) ·µ»Ø
+æ‰€æœ‰çš„å¯¹è±¡éƒ½æœ‰ä¸€ä¸ª class
+class(x) è¿”å›
 "numeric", "logical", "character" or "list",
 "matrix", "array", "factor" and "data.frame"
 
-unclass(x) ½« x ×÷ÎªÆÕÍ¨ list ´òÓ¡
+unclass(x) å°† x ä½œä¸ºæ™®é€š list æ‰“å°
 
 ======================
 
 
-+ ÓĞĞò/ÎŞĞò factor  +
++ æœ‰åº/æ— åº factor  +
 
-ÓÃÓÚ±íÊ¾Îï¼şµÄÀëÉ¢·ÖÀà
+ç”¨äºè¡¨ç¤ºç‰©ä»¶çš„ç¦»æ•£åˆ†ç±»
 
-++ ¼òµ¥Àı×Ó ++
+++ ç®€å•ä¾‹å­ ++
 
 > state <- c("tas", "sa",  "qld", "nsw", "nsw", "nt",  "wa",  "wa",
                   "qld", "vic", "nsw", "vic", "qld", "qld", "sa",  "tas",
                   "sa",  "nt",  "wa",  "vic", "qld", "nsw", "nsw", "wa",
                   "sa",  "act", "nsw", "vic", "vic", "act")
 
-Ê¹ÓÃ factor() º¯Êı´³½«: 
+ä½¿ç”¨ factor() å‡½æ•°é—¯å°†:
 
 > statef <- factor(state)
 
-print() º¯Êı´¦Àí factor Ê±, ÂÔÓĞ²»Í¬
+print() å‡½æ•°å¤„ç† factor æ—¶, ç•¥æœ‰ä¸åŒ
 
 > statef
  [1] tas sa  qld nsw nsw nt  wa  wa  qld vic nsw vic qld qld sa
 [16] tas sa  nt  wa  vic qld nsw nsw wa  sa  act nsw vic vic act
 Levels:  act nsw nt qld sa tas vic wa
 
-Ê¹ÓÃ levels() º¯Êı:
+ä½¿ç”¨ levels() å‡½æ•°:
 
 > levels(statef)
 [1] "act" "nsw" "nt"  "qld" "sa"  "tas" "vic" "wa"
 
-++ tapply() º¯ÊıºÍ ragged array ++
+++ tapply() å‡½æ•°å’Œ ragged array ++
 
 .....
 
-+ Array ºÍ Matrix +
++ Array å’Œ Matrix +
 
 ++ Array ++
 
 > dim(z) <- c(3,5,100)
 
-c(3,4,2) Î¬¶È:
-a[1,1,1], a[2,1,1], ..., a[2,4,2], a[3,4,2]. 
+c(3,4,2) ç»´åº¦:
+a[1,1,1], a[2,1,1], ..., a[2,4,2], a[3,4,2].
 
-++ Array Ë÷Òı, ÇĞÆ¬ ++
+++ Array ç´¢å¼•, åˆ‡ç‰‡ ++
 
 a[2,,]
-»ñµÃ 4*2 Î¬µÄ array
-¼´:
+è·å¾— 4*2 ç»´çš„ array
+å³:
 c(a[2,1,1], a[2,2,1], a[2,3,1], a[2,4,1],
       a[2,1,2], a[2,2,2], a[2,3,2], a[2,4,2])
 k
